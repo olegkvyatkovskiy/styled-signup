@@ -24,6 +24,21 @@ const SignupForm = () => {
     const body = JSON.stringify(fieldsValues);
     console.log("Form submitted", body);
     alert("Form submitted\n" + body);
+
+    // fetch("/api/signup", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body,
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log("Success:", data);
+    //   });
+    // .catch((error) => {
+    //   console.error("Error:", error);
+    // });
   };
 
   return (
@@ -52,7 +67,10 @@ const SignupForm = () => {
       >
         <Input id="email" name="email" />
 
-        <PasswordInput id="password" name="password" />
+        <PasswordInput
+          id="password"
+          name="password"
+        />
         <PasswordValidity
           checkResult={checkResult?.password}
           className="w-full"
