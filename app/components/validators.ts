@@ -42,3 +42,24 @@ export const validateEmail = (email: string) => {
 };
 
 export type TValidateEmailResult = ReturnType<typeof validateEmail> & TValidate;
+
+export const validate = (fields: TFields) => {
+  const email = validateEmail(fields.email);
+  const password = validatePassword(fields.password);
+
+  return {
+    email,
+    password,
+    isValid: email.isValid && password.isValid,
+  };
+};
+
+export type TValidateResult = ReturnType<typeof validate> & TValidate;
+
+export const getFormFieldsValues = (form: HTMLFormElement)=>{
+  const email = form.email.value;
+  const password = form.password.value;
+  return {email, password};
+}
+
+export type TFields = ReturnType<typeof getFormFieldsValues>;
