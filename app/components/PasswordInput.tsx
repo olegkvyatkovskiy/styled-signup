@@ -24,7 +24,14 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       refInput?.current?.focus();
     };
 
-    const iconClassName = cn("absolute mr-10 fill-[#6e90bb]", "");
+    const iconClassName = cn(
+      "absolute mr-10 fill-[#6e90bb]",
+      props.showAsError
+        ? props.isValid
+          ? "fill-[#27b273]"
+          : "fill-[#ff7f7f]"
+        : ""
+    );
 
     return (
       <div className="flex">

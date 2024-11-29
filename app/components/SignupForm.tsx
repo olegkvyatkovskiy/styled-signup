@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { FormEventHandler, useState } from "react";
 import { Input } from "./Input";
@@ -10,8 +11,23 @@ import { getFormFieldsValues, TValidateResult, validate } from "./validators";
 const SignupForm = () => {
   const [checkResult, setCheckResult] = useState<TValidateResult>();
 
+  const [showAsError, setShowAsError] = useState(false);
+
+  const handleEmailOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const form = e.target.form as HTMLFormElement;
+    setCheckResult(validate(getFormFieldsValues(form)));
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setShowAsError(false);
+
+    const form = event.target.form as HTMLFormElement;
+    setCheckResult(validate(getFormFieldsValues(form)));
+  };
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    setShowAsError(true);
 
     const fieldsValues = getFormFieldsValues(e.target as HTMLFormElement);
 
@@ -65,14 +81,36 @@ const SignupForm = () => {
         className="flex flex-col gap-[20px] items-center"
         onSubmit={handleSubmit}
       >
-        <Input id="email" name="email" />
+        <Input
+          id="email"
+          name="email"
+          onBlur={handleEmailOnBlur}
+          onChange={() => setShowAsError(false)}
+          isValid={checkResult?.email.isValid}
+          showAsError={showAsError}
+        />
+
+        {!checkResult?.email.isValid && (
+          <div
+            className={cn(
+              "flex flex-col text-[13px] font-normal leading-[18px] w-full",
+              showAsError ? "text-[#ff7f7f]" : "text-[#4a4d71]"
+            )}
+          >
+            <span>It has to be an email</span>
+          </div>
+        )}
 
         <PasswordInput
+          onChange={handlePasswordChange}
           id="password"
           name="password"
+          isValid={checkResult?.password.isValid}
+          showAsError={showAsError}
         />
         <PasswordValidity
           checkResult={checkResult?.password}
+          showAsError={showAsError}
           className="w-full"
         />
 
