@@ -1,7 +1,9 @@
+import SignupForm from "./components/SignupForm";
+
 export default function Home() {
   return (
     <div className="w-full pt-6">
-      Sign up Form
+      <SignupForm />;
     </div>
   );
 }
